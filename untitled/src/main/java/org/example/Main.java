@@ -6,6 +6,5 @@ public class Main {
         System.out.println("PQRS");
 //        random comment
         System.out.println("ABCD");
-
     }
 }
