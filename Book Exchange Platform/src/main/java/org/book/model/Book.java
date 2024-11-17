@@ -1,9 +1,6 @@
 package org.book.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +16,14 @@ public class Book {
     private String title;
     private String author;
     private String genre;
+    @Column(name = "book_condition")
     private String condition;
+
     private boolean available;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // Constructors
     public Book() {

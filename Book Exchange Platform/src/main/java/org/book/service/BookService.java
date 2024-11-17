@@ -1,7 +1,9 @@
 package org.book.service;
 
+import org.book.model.User;
 import org.book.repository.BookRepository;
 import org.book.model.Book;
+import org.book.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     // Add a new book
     public Book addBook(Book book) {
@@ -51,14 +56,18 @@ public class BookService {
     }
 
     // Search books by title, author, or genre
-    public List<Book> searchBooks(String title, String author, String genre) {
+    public List<Book> searchBooks(String title, String author, String genre, String location) {
+        List<Long> userIds;
         if (title != null && !title.isEmpty()) {
             return bookRepository.findByTitleContainingIgnoreCase(title);
         } else if (author != null && !author.isEmpty()) {
             return bookRepository.findByAuthorContainingIgnoreCase(author);
         } else if (genre != null && !genre.isEmpty()) {
             return bookRepository.findByGenreContainingIgnoreCase(genre);
-        } else {
+        } else if (location != null && !location.isEmpty()) {
+            return bookRepository.findBooksByUserLocation(location);
+        }
+        else {
             return bookRepository.findAll();
         }
     }

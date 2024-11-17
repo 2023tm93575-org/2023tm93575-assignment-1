@@ -28,9 +28,10 @@ public class BookController {
     public List<Book> getAllBooks(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String author,
-            @RequestParam(required = false) String genre
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String location
     ) {
-        return bookService.searchBooks(title, author, genre);
+        return bookService.searchBooks(title, author, genre,location);
     }
 
 
@@ -38,5 +39,16 @@ public class BookController {
     public ResponseEntity<?> deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Book>> searchBooks(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String location
+    ) {
+        List<Book> books = bookService.searchBooks(title, author, genre, location);
+        return ResponseEntity.ok(books);
     }
 }
